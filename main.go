@@ -17,16 +17,20 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var server string   // "azr-srv-sqlserver.database.windows.net"
-var user string     //"mandico"
-var password string // "<your_password>"
-var port int = 1433 // 1433
-var database string // "azrsqlserver"
+var server string
+var user string
+var password string
+var port int = 1433
+var database string
 var tenant string
 
 func init() {
-	log.SetFormatter(&log.TextFormatter{})
-	log.SetReportCaller(true)
+	log.SetFormatter(&log.TextFormatter{
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05.000",
+	})
+	//log.SetFormatter(&log.JSONFormatter{})
+	//log.SetReportCaller(true)
 
 	server = os.Getenv("AZR_DB_SERVER")
 	user = os.Getenv("AZR_SP_USER")
