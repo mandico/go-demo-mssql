@@ -1,6 +1,3 @@
-//go:build go1.18
-// +build go1.18
-
 package main
 
 import (
@@ -20,18 +17,15 @@ import (
 var server string
 var user string
 var password string
-var port int = 1433
 var database string
 var tenant string
+var port int = 1433
 
 func init() {
 	log.SetFormatter(&log.TextFormatter{
 		FullTimestamp:   true,
 		TimestampFormat: "2006-01-02 15:04:05.000",
 	})
-	//log.SetFormatter(&log.JSONFormatter{})
-	//log.SetReportCaller(true)
-
 	server = os.Getenv("AZR_DB_SERVER")
 	user = os.Getenv("AZR_SP_USER")
 	password = os.Getenv("AZR_SP_PASSWORD")
@@ -40,15 +34,13 @@ func init() {
 }
 
 func Healthz(w http.ResponseWriter, r *http.Request) {
-	log.Info("API Health is OK")
+	Head("API Health is OK")
 	w.Header().Set("Content-Type", "application/json")
 	io.WriteString(w, `{"alive": true}`)
 }
 
 func TestConnection(w http.ResponseWriter, r *http.Request) {
-	log.Info("#####################################################")
-	log.Info("# Starting Test Connection ")
-	log.Info("#####################################################")
+	Head("Starting Test Connection ")
 	connString := fmt.Sprintf("server=%s;user id=%s@%s;password=%s;port=%d;database=%s;fedauth=ActiveDirectoryServicePrincipal;", server, user, tenant, password, port, database)
 
 	conn, err := sql.Open(azuread.DriverName, connString)
@@ -69,14 +61,23 @@ func TestConnection(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Scan failed:", err.Error())
 	}
-	log.Info("Result: " + result)
+	Head("Result: SUCCESS CONNECTION :: " + result)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
-	log.Info("#####################################################")
+	json.NewEncoder(w).Encode("SUCCESS CONNECTION :: " + result)
+}
+
+func HeadLine(message string) {
+	log.Info("******************************************************")
+	log.Info("* " + message)
+	log.Info("******************************************************")
+}
+
+func Head(message string) {
+	log.Info("* " + message)
 }
 
 func main() {
-	log.Info("Starting GO DEMO MSSQL server")
+	HeadLine("Starting GO DEMO MSSQL server")
 	router := mux.NewRouter()
 	router.HandleFunc("/healthz", Healthz).Methods("GET")
 	router.HandleFunc("/connection", TestConnection).Methods("GET")

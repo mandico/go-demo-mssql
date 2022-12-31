@@ -1,7 +1,7 @@
-export AZR_DB_SERVER="azr-srv-sqlserver.database.windows.net"
-export AZR_SP_USER="b3941be8-3bf8-4ec0-8613-fa734c4b04b3"
+export AZR_DB_SERVER="azr-srv-sql.database.windows.net"
+export AZR_SP_USER="666cc4ab-e788-4da8-923e-08aebb0ff1f8"
 export AZR_SP_TENANT="1109763a-51f6-4c22-b046-235af9a045d5"
-export AZR_SP_PASSWORD="U548Q~Ub1TCgEnGIjgYXVEzFleHwWPAJN6c9-b1g"
-export AZR_DB_DATABASE="azrsqlserver"
+export AZR_SP_PASSWORD="0aD8Q~auSfyjfAwwNLFgESHhsecivnnfIApgUasu"
+export AZR_DB_DATABASE="azr-sql-db"
 
 go run main.go
